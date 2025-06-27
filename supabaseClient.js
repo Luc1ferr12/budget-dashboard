@@ -1,6 +1,6 @@
 // Ganti dengan URL dan anon key project Supabase Anda
 const SUPABASE_URL = 'https://dkvjhbhubrftspzltxns.supabase.co';
-const SUPABASE_ANON_KEY = 'ISI_DENGAN_ANON_KEY_ASLI'; // Ganti dengan anon key asli dari dashboard Supabase Anda
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrdmpoYmh1YnJmdHNwemx0eG5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA5OTc1NTksImV4cCI6MjA2NjU3MzU1OX0.zr2Y7ZPoZcKMN-i40OgCtXYr8lNb9lvALpx7ukc6TKo'; // Ganti dengan anon key asli dari dashboard Supabase Anda
 
 // Fungsi untuk memastikan Supabase JS sudah siap sebelum inisialisasi client
 function loadSupabaseClient(callback) {
