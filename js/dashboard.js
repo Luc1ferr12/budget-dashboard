@@ -1,11 +1,12 @@
 // Firebase config (isi sesuai project Anda)
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCtVKalCYsWX5eHfZyk005uzMElM_vreKo",
+  authDomain: "data-pribadi-ac30b.firebaseapp.com",
+  projectId: "data-pribadi-ac30b",
+  storageBucket: "data-pribadi-ac30b.firebasestorage.app",
+  messagingSenderId: "428995046107",
+  appId: "1:428995046107:web:0ed23242e750a3cb2cfafe",
+  measurementId: "G-98E4KP24VD"
 };
 
 if (!firebase.apps.length) {
