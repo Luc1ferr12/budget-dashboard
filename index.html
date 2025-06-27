@@ -3,51 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | Budget Dashboard</title>
-  <link rel="stylesheet" href="css/dashboard.css">
+  <title>Loading | Budget Dashboard</title>
   <link rel="stylesheet" href="css/common.css">
-  <script src="firebase.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="js/common.js" defer></script>
-  <script src="js/dashboard.js" defer></script>
   <style>
-    body.hide { visibility: hidden; }
+    body { background: var(--bg-main); color: var(--text-main); display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .loading-container { text-align: center; }
+    .spinner { border: 4px solid #eee; border-top: 4px solid var(--accent); border-radius: 50%; width: 48px; height: 48px; animation: spin 1s linear infinite; margin: 0 auto 1.5rem; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
   </style>
+  <script>
+    setTimeout(function() { window.location.href = 'login.html'; }, 1500);
+  </script>
 </head>
-<body class="hide">
-  <div class="main-layout">
-    <aside class="sidebar">
-      <div class="logo">💸 Budget</div>
-      <nav>
-        <a href="index.html" class="active">Dashboard</a>
-        <a href="assets.html">Assets</a>
-        <a href="budgeting.html">Budgeting</a>
-        <a href="expenses.html">Expenses</a>
-        <a href="transactions.html">Transactions</a>
-        <a href="settings.html">Settings</a>
-      </nav>
-      <button id="logout-btn" class="logout-btn">Logout</button>
-    </aside>
-    <div class="content-area">
-      <header class="main-header">
-        <h1>Dashboard</h1>
-        <div class="header-actions">
-          <span id="user-name"></span>
-          <div class="theme-toggle">
-            <span id="theme-label">Light Mode</span>
-            <input type="checkbox" id="theme-switch">
-            <label for="theme-switch" class="switch"></label>
-          </div>
-        </div>
-      </header>
-      <main>
-        <div class="dashboard-placeholder">
-          <h2>Welcome to your Budget Dashboard</h2>
-          <p>All your financial summary will appear here.</p>
-        </div>
-      </main>
-    </div>
+<body>
+  <div class="loading-container">
+    <div class="spinner"></div>
+    <h2>Loading Budget Dashboard...</h2>
   </div>
 </body>
 </html> 

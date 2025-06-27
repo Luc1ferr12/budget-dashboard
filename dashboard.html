@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Budget Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/common.css">
+  <script src="firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/dashboard.js" defer></script>
+  <style>
+    body.hide { visibility: hidden; }
+  </style>
+</head>
+<body class="hide">
+  <div class="main-layout">
+    <aside class="sidebar">
+      <div class="logo">💸 Budget</div>
+      <nav>
+        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="assets.html">Assets</a>
+        <a href="budgeting.html">Budgeting</a>
+        <a href="expenses.html">Expenses</a>
+        <a href="transactions.html">Transactions</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+      <button id="logout-btn" class="logout-btn">Logout</button>
+    </aside>
+    <div class="content-area">
+      <header class="main-header">
+        <h1>Dashboard</h1>
+        <div class="header-actions">
+          <span id="user-name"></span>
+          <div class="theme-toggle">
+            <span id="theme-label">Light Mode</span>
+            <input type="checkbox" id="theme-switch">
+            <label for="theme-switch" class="switch"></label>
+          </div>
+        </div>
+      </header>
+      <main>
+        <div class="dashboard-placeholder">
+          <h2>Welcome to your Budget Dashboard</h2>
+          <p>All your financial summary will appear here.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html> 
