@@ -1,61 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Budget Dashboard</title>
-  <style>
-    body {
-      background: #5b6dfa;
-      color: #fff;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .splash {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.2rem;
-    }
-    .splash-logo {
-      width: 60px;
-      height: 60px;
-    }
-    .loader {
-      border: 4px solid #fff;
-      border-top: 4px solid #a259f7;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      animation: spin 5s linear infinite;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Budget Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/common.css">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/dashboard.js" defer></script>
 </head>
 <body>
-  <div class="splash">
-    <img src="logo.svg" alt="Logo" class="splash-logo"/>
-    <div class="loader"></div>
-    <div>Loading...</div>
+  <div class="main-layout">
+    <aside class="sidebar">
+      <div class="logo">💸 Budget</div>
+      <nav>
+        <a href="index.html" class="active">Dashboard</a>
+        <a href="assets.html">Assets</a>
+        <a href="budgeting.html">Budgeting</a>
+        <a href="expenses.html">Expenses</a>
+        <a href="transactions.html">Transactions</a>
+        <a href="settings.html">Settings</a>
+      </nav>
+      <button id="logout-btn" class="logout-btn">Logout</button>
+    </aside>
+    <div class="content-area">
+      <header class="main-header">
+        <h1>Dashboard</h1>
+        <div class="header-actions">
+          <span id="user-name"></span>
+          <div class="theme-toggle">
+            <span id="theme-label">Light Mode</span>
+            <input type="checkbox" id="theme-switch">
+            <label for="theme-switch" class="switch"></label>
+          </div>
+        </div>
+      </header>
+      <main>
+        <div class="dashboard-placeholder">
+          <h2>Welcome to your Budget Dashboard</h2>
+          <p>All your financial summary will appear here.</p>
+        </div>
+      </main>
+    </div>
   </div>
-  <script src="supabaseClient.js"></script>
-  <script>
-    loadSupabaseClient(() => {
-      window.supabaseClient.auth.getSession().then(({ data: { session } }) => {
-        if (session) {
-          window.location.href = 'dashboard.html';
-        } else {
-          window.location.href = 'login.html';
-        }
-      });
-    });
-  </script>
 </body>
 </html> 

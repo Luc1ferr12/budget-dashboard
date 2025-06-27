@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login | Budget Dashboard</title>
-  <link rel="stylesheet" href="login.css" />
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/common.css">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/login.js" defer></script>
 </head>
 <body>
   <div class="login-container">
-    <img src="logo.svg" alt="Logo" class="logo"/>
-    <h1>Welcome to Budget Dashboard</h1>
+    <h1>Budget Dashboard</h1>
+    <p class="subtitle">Sign in to manage your finances</p>
     <button id="google-login" class="google-btn">
-      <img src="google-icon.svg" alt="Google" /> Login with Google
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon">
+      Sign in with Google
     </button>
     <div class="theme-toggle">
-      <span>🌙</span>
-      <input type="checkbox" id="toggle-darkmode" />
-      <span>☀️</span>
+      <span id="theme-label">Light Mode</span>
+      <input type="checkbox" id="theme-switch">
+      <label for="theme-switch" class="switch"></label>
     </div>
   </div>
-  <script src="supabaseClient.js"></script>
-  <script src="login.js"></script>
 </body>
 </html> 
