@@ -8,6 +8,7 @@ auth.onAuthStateChanged(function(user) {
     window.location.href = 'login.html';
   } else {
     document.getElementById('user-name').textContent = user.displayName || user.email;
+    document.body.classList.remove('hide');
   }
 });
 
