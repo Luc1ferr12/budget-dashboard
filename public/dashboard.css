@@ -1,0 +1,111 @@
+:root {
+  --primary: #5b6dfa;
+  --accent: #a259f7;
+  --bg-light: #f7f8fa;
+  --bg-dark: #181a20;
+  --text-light: #222;
+  --text-dark: #f7f8fa;
+  --card-light: #fff;
+  --card-dark: #232634;
+}
+body {
+  background: var(--bg-light);
+  color: var(--text-light);
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+body.dark {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+#sidebar-container {
+  width: 220px;
+  min-width: 60px;
+  float: left;
+  height: 100vh;
+}
+.main-content {
+  margin-left: 220px;
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-height: 100vh;
+  transition: margin 0.3s;
+}
+@media (max-width: 800px) {
+  #sidebar-container {
+    width: 60px;
+    min-width: 60px;
+  }
+  .main-content {
+    margin-left: 60px;
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+  }
+}
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.dashboard-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+.dashboard-summary {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+.summary-card {
+  background: var(--card-light);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(90,100,120,0.07);
+  padding: 1.2rem 2rem;
+  min-width: 180px;
+  flex: 1 1 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: background 0.3s;
+}
+body.dark .summary-card {
+  background: var(--card-dark);
+}
+.summary-title {
+  font-size: 1.1rem;
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.summary-value {
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+.account-balance {
+  background: var(--card-light);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(90,100,120,0.07);
+  padding: 1.5rem 2rem;
+  margin-top: 1.5rem;
+  transition: background 0.3s;
+}
+body.dark .account-balance {
+  background: var(--card-dark);
+}
+.account-balance h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+#account-balances-list {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+.user-info {
+  font-size: 1rem;
+  color: var(--accent);
+  font-weight: 500;
+} 

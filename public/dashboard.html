@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | Budget Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="components/sidebar.css" />
+</head>
+<body>
+  <div id="sidebar-container"></div>
+  <main class="main-content">
+    <header class="dashboard-header">
+      <h1>Dashboard</h1>
+      <div class="user-info" id="user-info"></div>
+    </header>
+    <section class="dashboard-summary">
+      <div class="summary-card" id="income-card">
+        <div class="summary-title">Income</div>
+        <div class="summary-value" id="income-value">-</div>
+      </div>
+      <div class="summary-card" id="savings-card">
+        <div class="summary-title">Savings</div>
+        <div class="summary-value" id="savings-value">-</div>
+      </div>
+      <div class="summary-card" id="expenses-card">
+        <div class="summary-title">Expenses</div>
+        <div class="summary-value" id="expenses-value">-</div>
+      </div>
+      <div class="summary-card" id="budget-card">
+        <div class="summary-title">Budget</div>
+        <div class="summary-value" id="budget-value">-</div>
+      </div>
+    </section>
+    <section class="account-balance">
+      <h2>Account Balances</h2>
+      <div id="account-balances-list">Loading...</div>
+    </section>
+  </main>
+  <script src="../supabase/supabaseClient.js"></script>
+  <script src="dashboard.js"></script>
+  <script>
+    // Load sidebar
+    fetch('components/sidebar.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('sidebar-container').innerHTML = html;
+      });
+  </script>
+</body>
+</html> 

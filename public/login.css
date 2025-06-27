@@ -1,0 +1,105 @@
+:root {
+  --primary: #5b6dfa;
+  --accent: #a259f7;
+  --bg-light: #f7f8fa;
+  --bg-dark: #181a20;
+  --text-light: #222;
+  --text-dark: #f7f8fa;
+  --card-light: #fff;
+  --card-dark: #232634;
+}
+
+body {
+  background: var(--bg-light);
+  color: var(--text-light);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+.login-container {
+  background: var(--card-light);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(90,100,120,0.08);
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-width: 320px;
+  max-width: 350px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  transition: background 0.3s;
+}
+
+body.dark .login-container {
+  background: var(--card-dark);
+}
+
+.logo {
+  width: 60px;
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(90,100,120,0.08);
+  transition: background 0.2s;
+}
+.google-btn img {
+  width: 22px;
+  height: 22px;
+}
+.google-btn:hover {
+  background: var(--accent);
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+#toggle-darkmode {
+  accent-color: var(--primary);
+  width: 36px;
+  height: 18px;
+}
+
+@media (max-width: 500px) {
+  .login-container {
+    min-width: 90vw;
+    max-width: 98vw;
+    padding: 2rem 0.5rem 1.5rem 0.5rem;
+  }
+  h1 {
+    font-size: 1.1rem;
+  }
+} 
