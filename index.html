@@ -41,11 +41,11 @@
 </head>
 <body>
   <div class="splash">
-    <img src="assets/logo.svg" alt="Logo" class="splash-logo"/>
+    <img src="logo.svg" alt="Logo" class="splash-logo"/>
     <div class="loader"></div>
     <div>Loading...</div>
   </div>
-  <script src="../supabase/supabaseClient.js"></script>
+  <script src="supabaseClient.js"></script>
   <script>
     loadSupabaseClient(() => {
       window.supabaseClient.auth.getSession().then(({ data: { session } }) => {
