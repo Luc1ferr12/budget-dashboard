@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Bank | Budget Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase.js"></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/add-bank.js" defer></script>
+  <style>
+    body { background: var(--bg-main); color: var(--text-main); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .add-bank-container {
+      background: var(--bg-card);
+      border-radius: 1.3rem;
+      box-shadow: 0 8px 40px rgba(44,62,80,0.13);
+      padding: 2.2rem 2rem 2rem 2rem;
+      min-width: 340px;
+      max-width: 95vw;
+      width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      position: relative;
+    }
+    .add-bank-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 2.5rem;
+      margin-bottom: 0.7rem;
+    }
+    .add-bank-form {
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-end;
+      margin-bottom: 1.2rem;
+    }
+    .add-bank-form label {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+      display: block;
+    }
+    .add-bank-form input {
+      flex: 1;
+      padding: 0.6rem 1rem;
+      border-radius: 0.6rem;
+      border: 1.5px solid var(--border-color);
+      font-size: 1rem;
+      background: var(--bg-main);
+      color: var(--text-main);
+      outline: none;
+      transition: border 0.2s;
+    }
+    .add-bank-form input:focus {
+      border: 1.5px solid var(--accent);
+    }
+    .add-bank-form button {
+      padding: 0.6rem 1.3rem;
+      border-radius: 0.6rem;
+      border: none;
+      background: #22c55e;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .add-bank-form button:hover {
+      background: #16a34a;
+    }
+    .bank-list-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      margin-top: 1.2rem;
+    }
+    .bank-list {
+      min-height: 40px;
+      padding: 0.5rem 0;
+    }
+    .bank-item {
+      padding: 0.6rem 1rem;
+      border-radius: 0.5rem;
+      background: var(--sidebar-active);
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .bank-item:last-child { margin-bottom: 0; }
+    .bank-item .remove-btn {
+      background: #f56565;
+      color: #fff;
+      border: none;
+      border-radius: 0.4rem;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .bank-item .remove-btn:hover {
+      background: #c53030;
+    }
+    .no-banks-list {
+      color: var(--text-secondary);
+      text-align: center;
+      padding: 1rem 0;
+    }
+    @media (max-width: 600px) {
+      .add-bank-container { width: 99vw; min-width: 0; padding: 1.2rem 0.5rem; }
+    }
+    .back-btn {
+      position: absolute;
+      top: 1.1rem;
+      left: 1.1rem;
+      background: var(--bg-main);
+      border: 1.5px solid var(--border-color);
+      color: var(--accent);
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 0.32rem 0.85rem 0.32rem 0.65rem;
+      border-radius: 0.7rem;
+      box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+      transition: background 0.2s, border 0.2s, color 0.2s;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+    }
+    .back-btn:hover {
+      background: var(--sidebar-active);
+      color: #fff;
+      border-color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="add-bank-container">
+    <button class="back-btn" onclick="window.location.href='dashboard.html'" title="Back to Dashboard">
+      <span style="font-size:1.2rem;vertical-align:middle;">&#8592;</span>
+    </button>
+    <div class="add-bank-title">Banks</div>
+    <form class="add-bank-form" id="add-bank-form" autocomplete="off">
+      <div style="flex:1;">
+        <label for="bank-name">Add New Bank</label>
+        <input type="text" id="bank-name" placeholder="e.g. BCA, Mandiri" required>
+      </div>
+      <button type="submit">Add</button>
+    </form>
+    <div class="bank-list-title">List Bank</div>
+    <div class="bank-list" id="bank-list">
+      <div class="no-banks-list">No banks added yet.</div>
+    </div>
+  </div>
+</body>
+</html> 

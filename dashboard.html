@@ -6,8 +6,11 @@
   <title>Dashboard | Budget Dashboard</title>
   <link rel="stylesheet" href="css/dashboard.css">
   <link rel="stylesheet" href="css/common.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="firebase.js"></script>
   <script src="js/common.js" defer></script>
   <script src="js/dashboard.js" defer></script>
@@ -18,35 +21,174 @@
 <body class="hide">
   <div class="main-layout">
     <aside class="sidebar">
-      <div class="logo">💸 Budget</div>
+      <div class="logo">
+        <img src="https://img.icons8.com/color/40/000000/money-bag.png" alt="Monsy Logo" style="vertical-align:middle;margin-right:8px;">
+        <span class="logo-title">Finwise</span>
+      </div>
       <nav>
-        <a href="dashboard.html" class="active">Dashboard</a>
-        <a href="assets.html">Assets</a>
-        <a href="budgeting.html">Budgeting</a>
-        <a href="expenses.html">Expenses</a>
-        <a href="transactions.html">Transactions</a>
-        <a href="settings.html">Settings</a>
+        <a href="dashboard.html" class="active"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="12" width="7" height="8" rx="2"/><rect x="14" y="4" width="7" height="16" rx="2"/></svg></span> Dashboard</a>
+        <a href="assets.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span> Assets</a>
+        <a href="budgeting.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></span> Budgeting</a>
+        <a href="expenses.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v8m0 0l-4-4m4 4l4-4"/><rect x="4" y="4" width="16" height="16" rx="2"/></svg></span> Expenses</a>
+        <a href="transactions.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 17v-6a2 2 0 0 0-2-2H7"/><path d="M7 7v6a2 2 0 0 0 2 2h8"/></svg></span> Transactions</a>
+        <a href="settings.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Settings</a>
       </nav>
       <button id="logout-btn" class="logout-btn">Logout</button>
     </aside>
     <div class="content-area">
       <header class="main-header">
-        <h1>Dashboard</h1>
-        <div class="header-actions">
-          <span id="user-name"></span>
-          <div class="theme-toggle">
-            <span id="theme-label">Light Mode</span>
-            <input type="checkbox" id="theme-switch">
-            <label for="theme-switch" class="switch"></label>
-          </div>
+        <div class="header-left">
+          <h1>Money Management Dashboard</h1>
+          <div class="greeting">Hello, <span id="user-greet"></span> 👋</div>
+        </div>
+        <div class="header-right">
+          <select class="filter-select" id="year-select">
+            <option>2025</option>
+            <option>2024</option>
+            <option>2023</option>
+          </select>
+          <select class="filter-select" id="month-select">
+            <option>-- All month --</option>
+            <option>January</option>
+            <option>February</option>
+            <option>March</option>
+            <option>April</option>
+            <option>May</option>
+            <option>June</option>
+            <option>July</option>
+            <option>August</option>
+            <option>September</option>
+            <option>October</option>
+            <option>November</option>
+            <option>December</option>
+          </select>
+          <button id="theme-toggle-btn" class="theme-toggle-btn" title="Toggle dark/light mode">
+            <span id="theme-icon">🌙</span>
+          </button>
         </div>
       </header>
       <main>
-        <div class="dashboard-placeholder">
-          <h2>Welcome to your Budget Dashboard</h2>
-          <p>All your financial summary will appear here.</p>
+        <div class="summary-row">
+          <div class="summary-card income">
+            <div class="card-content-right">
+              <div class="card-label"><span class="icon">💵</span> INCOME</div>
+              <div class="card-value">Rp0</div>
+              <div class="card-desc">0.0% <span class="desc-label">vs. previous period</span></div>
+            </div>
+          </div>
+          <div class="summary-card savings">
+            <div class="card-label"><span class="icon">🏦</span> Total Saving</div>
+            <div class="card-value">Rp0</div>
+            <div class="card-desc">0.0% <span class="desc-label">vs. previous period</span></div>
+          </div>
+          <div class="summary-card balance">
+            <div class="card-label"><span class="icon balance-icon"><svg class="balance-svg-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></span> Balance</div>
+            <div class="card-value">Rp0</div>
+            <div class="card-desc">0.0% <span class="desc-label">vs. previous period</span></div>
+          </div>
+          <div class="summary-card expenses">
+            <div class="card-label"><span class="icon">💸</span> Total Expenses</div>
+            <div class="card-value">Rp0</div>
+            <div class="card-desc">0.0% <span class="desc-label">vs. previous period</span></div>
+          </div>
+        </div>
+        <div class="balance-row">
+          <div class="card-box account-balance-box">
+            <div class="card-box-header">
+              <span class="card-box-title">Bank Balance</span>
+              <button class="add-btn">+ Add</button>
+            </div>
+            <div class="card-content">No account found.</div>
+          </div>
+          
+          <div class="card-box invest-balance-box">
+            <div class="card-box-header">
+              <span class="card-box-title">Invest Balance</span>
+              <button class="add-btn">+ Add</button>
+            </div>
+            <div class="card-content">No investment found.</div>
+          </div>
+        </div>
+        
+        <div class="card-box cashflow-box">
+          <div class="cashflow-header">
+            <div class="cashflow-header-row">
+              <span class="cashflow-title">Cash Flow</span>
+              <div class="cashflow-filters">
+                <div class="cf-multiselect">
+                  <button class="cf-multiselect-btn" id="cf-type-btn">Filter <span class="cf-multiselect-arrow">▼</span></button>
+                  <div class="cf-multiselect-list" id="cf-type-list" style="display:none;">
+                    <label><input type="checkbox" value="income" checked> Income</label>
+                    <label><input type="checkbox" value="saving"> Saving</label>
+                    <label><input type="checkbox" value="expenses"> Expenses</label>
+                  </div>
+                </div>
+                <select class="cf-select" id="cf-month">
+                  <option value="">Month</option>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+                <select class="cf-select" id="cf-year">
+                  <option value="">Year</option>
+                  <option>2025</option>
+                  <option>2024</option>
+                  <option>2023</option>
+                </select>
+              </div>
+              <div class="cashflow-periods">
+                <button class="cf-period-btn active" data-period="daily">Daily</button>
+                <button class="cf-period-btn" data-period="weekly">Weekly</button>
+                <button class="cf-period-btn" data-period="monthly">Monthly</button>
+                <button class="cf-period-btn" data-period="yearly">Yearly</button>
+              </div>
+            </div>
+          </div>
+          <div class="cashflow-chart-area">
+            <canvas id="cashflow-chart" width="400" height="200"></canvas>
+          </div>
         </div>
       </main>
+    </div>
+  </div>
+  <!-- Modal Select Bank -->
+  <div id="select-bank-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+      <h2 class="modal-title">Select Bank</h2>
+      <p class="modal-desc">Select up to max 3 accounts to display balances on your dashboard, for a cleaner look.</p>
+      <div class="modal-bank-list" id="modal-bank-list">
+        <!-- Dynamic: No banks found. Add bank / List of banks -->
+        <div class="no-banks">No banks found. <a href="add-bank.html" id="add-bank-link">Add bank</a></div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn modal-save">Save</button>
+        <button class="modal-btn modal-cancel">Cancel</button>
+        <a href="add-bank.html" class="modal-btn modal-add" style="text-decoration:none;">Add</a>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Select Investment -->
+  <div id="select-investment-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+      <h2 class="modal-title">Select Investment</h2>
+      <p class="modal-desc">Select up to max 3 invesment to display balances on your dashboard, for a cleaner look.</p>
+      <div class="modal-investment-list" id="modal-investment-list">
+        <div class="no-investments">You still have not invesment list.</div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn modal-investment-save">Save</button>
+        <button class="modal-btn modal-investment-cancel">Cancel</button>
+        <a href="add-invest.html" class="modal-btn modal-investment-add" style="text-decoration:none;">Add</a>
+      </div>
     </div>
   </div>
 </body>

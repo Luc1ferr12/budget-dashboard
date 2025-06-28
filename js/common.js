@@ -3,11 +3,9 @@ function setTheme(isDark) {
   if (isDark) {
     document.body.classList.add('dark');
     localStorage.setItem('theme', 'dark');
-    document.getElementById('theme-label').textContent = 'Dark Mode';
   } else {
     document.body.classList.remove('dark');
     localStorage.setItem('theme', 'light');
-    document.getElementById('theme-label').textContent = 'Light Mode';
   }
 }
 

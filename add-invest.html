@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Investment | Finwise</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    html, body { height: 100%; }
+    body { background: var(--bg-main); color: var(--text-main); font-family: 'Inter', Arial, sans-serif; min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center; }
+    .add-invest-container { width: 100%; max-width: 370px; background: var(--bg-card); border-radius: 1.3rem; box-shadow: 0 8px 40px rgba(44,62,80,0.13); padding: 2.2rem 2rem 1.5rem 2rem; margin: 0 auto; position: relative; }
+    .back-btn { background: var(--sidebar-active); color: var(--accent); border: none; border-radius: 0.7rem; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; margin-bottom: 1.2rem; transition: background 0.2s, color 0.2s; text-decoration: none; position: absolute; top: 1.2rem; left: 1.2rem; }
+    .back-btn:hover { background: var(--accent); color: #fff; }
+    .invest-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 1.7rem; text-align: center; }
+    .invest-label { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; display: block; }
+    .invest-form-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.2rem; }
+    .invest-input { flex: 1; padding: 0.6rem 1rem; border-radius: 0.6rem; border: 1.5px solid var(--border-color); font-size: 1rem; background: var(--bg-main); color: var(--text-main); outline: none; transition: border 0.2s; }
+    .invest-input:focus { border-color: var(--accent); }
+    .add-invest-btn { background: #22c55e; color: #fff; border: none; border-radius: 0.6rem; padding: 0.6rem 1.3rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .add-invest-btn:hover { background: #16a34a; }
+    .invest-placeholder { color: var(--text-secondary); font-size: 0.98rem; margin-top: 0.2rem; margin-bottom: 0.7rem; text-align: center; }
+    .invest-list { margin-top: 1.2rem; }
+    .invest-item { background: var(--sidebar-active); color: var(--text-main); border-radius: 0.7rem; padding: 0.7rem 1.1rem; margin-bottom: 0.7rem; display: flex; align-items: center; justify-content: space-between; font-size: 1rem; font-weight: 500; }
+    .invest-item:last-child { margin-bottom: 0; }
+    .delete-invest-btn { background: none; border: none; color: #f56565; font-size: 1.2rem; cursor: pointer; padding: 0.2rem 0.5rem; border-radius: 0.4rem; transition: background 0.2s; display: flex; align-items: center; }
+    .delete-invest-btn:hover { background: #f56565; color: #fff; }
+    .delete-invest-btn svg { width: 20px; height: 20px; display: inline-block; }
+    @media (max-width: 600px) { .add-invest-container { max-width: 98vw; padding: 1.2rem 0.5rem 1rem 0.5rem; } }
+    body.dark .add-invest-container { background: #232a36; color: #f7f9fb; }
+    body.dark .invest-input { background: #181c24; color: #f7f9fb; border-color: #333a4d; }
+    body.dark .invest-item { background: #232a36; color: #f7f9fb; }
+    body.dark .back-btn { background: #232a36; color: #63b3ed; }
+    body.dark .back-btn:hover { background: #63b3ed; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="add-invest-container">
+    <a href="dashboard.html" class="back-btn" title="Back">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+    </a>
+    <div class="invest-title">Investment</div>
+    <div class="invest-label">Type of investment</div>
+    <form id="invest-form" class="invest-form-row" autocomplete="off">
+      <input type="text" class="invest-input" id="invest-input" placeholder="e.g. Stock, Crypto, Gold" />
+      <button type="submit" class="add-invest-btn">Add</button>
+    </form>
+    <div class="invest-label" style="margin-top:1.2rem;">List Investment</div>
+    <div class="invest-placeholder" id="invest-placeholder">No investment yet.</div>
+    <div class="invest-list" id="invest-list"></div>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase.js"></script>
+  <script>
+    const investForm = document.getElementById('invest-form');
+    const investInput = document.getElementById('invest-input');
+    const investList = document.getElementById('invest-list');
+    const investPlaceholder = document.getElementById('invest-placeholder');
+    let investments = [];
+    let currentUser = null;
+
+    // Cek user login
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (!user) {
+        window.location.href = 'login.html';
+      } else {
+        currentUser = user;
+        listenUserInvestments(user);
+      }
+    });
+
+    // Ambil data investment dari Firestore
+    function listenUserInvestments(user) {
+      db.collection('users').doc(user.uid).onSnapshot(doc => {
+        const data = doc.data() || {};
+        investments = data.investments || [];
+        renderInvestments();
+      });
+    }
+
+    function saveInvestmentsToFirestore() {
+      if (currentUser) {
+        db.collection('users').doc(currentUser.uid).set({ investments }, { merge: true });
+      }
+    }
+
+    function renderInvestments() {
+      investList.innerHTML = '';
+      if (investments.length === 0) {
+        investPlaceholder.style.display = 'block';
+      } else {
+        investPlaceholder.style.display = 'none';
+        investments.forEach((inv, idx) => {
+          const item = document.createElement('div');
+          item.className = 'invest-item';
+          item.innerHTML = `<span>${inv}</span><button class="delete-invest-btn" title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6v12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6"/><path d="M19 6l-1.5 14a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>`;
+          item.querySelector('.delete-invest-btn').onclick = () => {
+            investments.splice(idx, 1);
+            saveInvestmentsToFirestore();
+            renderInvestments();
+          };
+          investList.appendChild(item);
+        });
+      }
+    }
+    investForm.onsubmit = function(e) {
+      e.preventDefault();
+      const val = investInput.value.trim();
+      if (val && !investments.includes(val)) {
+        investments.push(val);
+        investInput.value = '';
+        saveInvestmentsToFirestore();
+        renderInvestments();
+      }
+    };
+    renderInvestments();
+  </script>
+</body>
+</html> 
