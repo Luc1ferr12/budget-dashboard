@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions | Finwise</title>
+  <link rel="stylesheet" href="css/transactions.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase.js"></script>
+  <script src="js/transactions.js" defer></script>
+  <style>
+    body.hide { visibility: hidden; }
+  </style>
+</head>
+<body class="hide">
+  <div class="main-layout">
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="https://img.icons8.com/color/40/000000/money-bag.png" alt="Monsy Logo" style="vertical-align:middle;margin-right:8px;">
+        <span class="logo-title">Finwise</span>
+      </div>
+      <button id="theme-toggle-btn" class="theme-toggle-btn" title="Toggle dark/light mode" style="margin-bottom:0.1rem;">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <nav>
+        <a href="dashboard.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="12" width="7" height="8" rx="2"/><rect x="14" y="4" width="7" height="16" rx="2"/></svg></span> Dashboard</a>
+        <a href="assets.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span> Assets</a>
+        <a href="budgeting.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></span> Budgeting</a>
+        <a href="transactions.html" class="active"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 17v-6a2 2 0 0 0-2-2H7"/><path d="M7 7v6a2 2 0 0 0 2 2h8"/></svg></span> Transactions</a>
+        <a href="settings.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Settings</a>
+      </nav>
+      <button id="logout-btn" class="logout-btn">Logout</button>
+    </aside>
+    <div class="content-area">
+      <header class="main-header">
+        <div class="header-left">
+          <h1>Transactions</h1>
+          <div class="greeting">Manage your financial transactions</div>
+        </div>
+        <div class="header-right">
+        </div>
+      </header>
+      <main>
+        <div class="transactions-card">
+          <div class="add-buttons-row">
+            <button class="add-btn add-savings-btn">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M19 5c0 1.5-2.5 3-5 3s-5-1.5-5-3 2.5-3 5-3 5 1.5 5 3z"/>
+                <path d="M2 12c0 1.5 2.5 3 5 3s5-1.5 5-3-2.5-3-5-3-5 1.5-5 3z"/>
+                <path d="M12 12c0 1.5 2.5 3 5 3s5-1.5 5-3-2.5-3-5-3-5 1.5-5 3z"/>
+                <path d="M7 9c0 1.5 2.5 3 5 3s5-1.5 5-3-2.5-3-5-3-5 1.5-5 3z"/>
+              </svg>
+              Add Saving
+            </button>
+            <button class="add-btn transfer-balance-btn" style="background-color: #ff8c00; border-color: #ff8c00;">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M7 17l9.2-9.2"/>
+                <path d="M7 7h10v10"/>
+                <path d="M7 17l9.2-9.2"/>
+                <path d="M7 7h10v10"/>
+              </svg>
+              Transfer Balance
+            </button>
+            <button class="add-btn add-income-btn">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+              </svg>
+              Add Income
+            </button>
+            <button class="add-btn add-expenses-btn">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="9" cy="21" r="1"/>
+                <circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              Add Expenses
+            </button>
+          </div>
+          <div class="trx-section detail">
+            <div class="trx-section-title">Detail</div>
+            <div class="trx-table-area">
+              <table class="transactions-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Account</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="6" class="no-data">No data yet</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="trx-section saving">
+            <div class="trx-section-title">Saving</div>
+            <div class="trx-table-area">
+              <table class="transactions-table">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Jan</th>
+                    <th>Feb</th>
+                    <th>Mar</th>
+                    <th>Apr</th>
+                    <th>May</th>
+                    <th>Jun</th>
+                    <th>Jul</th>
+                    <th>Aug</th>
+                    <th>Sep</th>
+                    <th>Oct</th>
+                    <th>Nov</th>
+                    <th>Dec</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="13" class="no-data">No data yet</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td><strong>Total</strong></td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <div class="trx-section income">
+            <div class="trx-section-title">Income</div>
+            <div class="trx-table-area">
+              <table class="transactions-table">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Jan</th>
+                    <th>Feb</th>
+                    <th>Mar</th>
+                    <th>Apr</th>
+                    <th>May</th>
+                    <th>Jun</th>
+                    <th>Jul</th>
+                    <th>Aug</th>
+                    <th>Sep</th>
+                    <th>Oct</th>
+                    <th>Nov</th>
+                    <th>Dec</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="13" class="no-data">No data yet</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td><strong>Total</strong></td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <div class="trx-section expenses">
+            <div class="trx-section-title">Expenses</div>
+            <div class="trx-table-area">
+              <table class="transactions-table">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Jan</th>
+                    <th>Feb</th>
+                    <th>Mar</th>
+                    <th>Apr</th>
+                    <th>May</th>
+                    <th>Jun</th>
+                    <th>Jul</th>
+                    <th>Aug</th>
+                    <th>Sep</th>
+                    <th>Oct</th>
+                    <th>Nov</th>
+                    <th>Dec</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="13" class="no-data">No data yet</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td><strong>Total</strong></td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                    <td>Rp 0</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+          <!-- Card Transfered -->
+          <div class="trx-section transfered" style="border-left: 6px solid orange;">
+            <div class="trx-section-title">Transfered</div>
+            <div class="trx-table-area">
+              <table class="transactions-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="5" class="no-data">No data yet</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="4"><strong>Total</strong></td>
+                    <td>Rp 0</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Add Income Modal -->
+  <div id="add-income-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add Income</h2>
+        <button class="close-btn" id="close-income-modal">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form id="add-income-form">
+        <div class="form-group">
+          <label for="income-date">Date</label>
+          <input type="date" id="income-date" name="date" required>
+        </div>
+        <div class="form-group">
+          <label for="income-amount">Amount</label>
+          <input type="number" id="income-amount" name="amount" placeholder="Enter amount" required>
+        </div>
+        <div class="form-group">
+          <label for="income-category">Category</label>
+          <div class="input-with-btn">
+            <select id="income-category" name="category" required>
+              <option value="">Select category</option>
+            </select>
+            <button type="button" class="add-category-btn" id="add-category-btn">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="income-account">Account</label>
+          <div class="input-with-btn">
+            <select id="income-account" name="account" required>
+              <option value="">Select account</option>
+            </select>
+            <button type="button" class="add-account-btn" id="add-account-btn">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" id="cancel-income">Cancel</button>
+          <button type="submit" class="submit-btn">Add Income</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Expenses Modal -->
+  <div id="add-expenses-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add Expenses</h2>
+        <button class="close-btn" id="close-expenses-modal">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form id="add-expenses-form">
+        <div class="form-group">
+          <label for="expenses-date">Date</label>
+          <input type="date" id="expenses-date" name="date" required>
+        </div>
+        <div class="form-group">
+          <label for="expenses-amount">Amount</label>
+          <input type="number" id="expenses-amount" name="amount" placeholder="Enter amount" required>
+        </div>
+        <div class="form-group">
+          <label for="expenses-category">Category</label>
+          <div class="input-with-btn">
+            <select id="expenses-category" name="category" required>
+              <option value="">Select category</option>
+            </select>
+            <button type="button" class="add-category-btn" id="add-expenses-category-btn">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="expenses-account">Account</label>
+          <div class="input-with-btn">
+            <select id="expenses-account" name="account" required>
+              <option value="">Select account</option>
+            </select>
+            <button type="button" class="add-account-btn" id="add-expenses-account-btn">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" id="cancel-expenses">Cancel</button>
+          <button type="submit" class="submit-btn">Add Expenses</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Saving Modal -->
+  <div id="add-saving-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add Saving</h2>
+        <button class="close-btn" id="close-saving-modal">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form id="add-saving-form">
+        <div class="form-group">
+          <label for="saving-date">Date</label>
+          <input type="date" id="saving-date" name="date" required>
+        </div>
+        <div class="form-group">
+          <label for="saving-amount">Amount</label>
+          <input type="number" id="saving-amount" name="amount" placeholder="Enter amount" required>
+        </div>
+        <div class="form-group">
+          <label for="saving-category">Category</label>
+          <select id="saving-category" name="category" required>
+            <option value="">Select category</option>
+            <option value="bank-bank">Bank → Bank</option>
+            <option value="bank-invest">Bank → Invest</option>
+            <option value="invest-bank">Invest → Bank</option>
+            <option value="invest-invest">Invest → Invest</option>
+          </select>
+        </div>
+        <div id="saving-dynamic-fields"></div>
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" id="cancel-saving">Cancel</button>
+          <button type="submit" class="submit-btn">Add Saving</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Transfer Balance Modal -->
+  <div id="transfer-balance-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Transfer Your Balance</h2>
+        <button class="close-btn" id="close-transfer-balance-modal">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form id="transfer-balance-form">
+        <div class="form-group">
+          <label for="transfer-date">Date</label>
+          <input type="date" id="transfer-date" name="date" required>
+        </div>
+        <div class="form-group">
+          <label for="transfer-amount">Amount</label>
+          <input type="number" id="transfer-amount" name="amount" placeholder="Enter amount" required>
+        </div>
+        <div class="form-group">
+          <label for="transfer-category">Category</label>
+          <select id="transfer-category" name="category" required>
+            <option value="">Select category</option>
+            <option value="bank-bank">Bank → Bank</option>
+            <option value="bank-invest">Bank → Invest</option>
+            <option value="invest-bank">Invest → Bank</option>
+            <option value="invest-invest">Invest → Invest</option>
+          </select>
+        </div>
+        <div id="transfer-dynamic-fields"></div>
+        <div id="balance-info" class="balance-info" style="display: none;">
+          <div class="balance-info-content">
+            <span class="balance-label">Available Balance:</span>
+            <span class="balance-amount" id="balance-amount">Rp 0</span>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" id="cancel-transfer-balance">Cancel</button>
+          <button type="submit" class="submit-btn">Transfer Balance</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Category Management Modal -->
+  <div id="category-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Manage Categories</h2>
+        <button class="close-btn" id="close-category-modal">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="category-modal-body">
+        <form id="add-category-form" class="form-inline">
+          <input type="text" id="new-category-input" placeholder="Add new category" required />
+          <button type="submit" class="add-category-btn">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+        </form>
+        <ul id="category-list" class="category-list"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expenses Category Management Modal -->
+  <div id="expenses-category-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Manage Expenses Categories</h2>
+        <button class="close-btn" id="close-expenses-category-modal">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="category-modal-body">
+        <form id="add-expenses-category-form" class="form-inline">
+          <input type="text" id="new-expenses-category-input" placeholder="Add new category" required />
+          <button type="submit" class="add-category-btn">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+        </form>
+        <ul id="expenses-category-list" class="category-list"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Transaction Modal -->
+  <div id="edit-transaction-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit Transaction</h2>
+        <button class="close-btn" id="close-edit-transaction-modal">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form id="edit-transaction-form">
+        <div class="form-group">
+          <label for="edit-date">Date</label>
+          <input type="date" id="edit-date" name="date" required>
+        </div>
+        <div class="form-group">
+          <label for="edit-type">Type</label>
+          <select id="edit-type" name="type" required>
+            <option value="income">Income</option>
+            <option value="saving">Saving</option>
+            <option value="expenses">Expenses</option>
+          </select>
+        </div>
+        <div id="edit-dynamic-fields">
+          <!-- Field dinamis akan muncul di sini -->
+        </div>
+        <div class="form-group">
+          <label for="edit-amount">Amount</label>
+          <input type="number" id="edit-amount" name="amount" required>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" id="cancel-edit-transaction">Cancel</button>
+          <button type="submit" class="submit-btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html> 

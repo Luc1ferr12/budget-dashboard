@@ -6,36 +6,225 @@
   <title>Add Investment | Finwise</title>
   <link rel="stylesheet" href="css/dashboard.css">
   <link rel="stylesheet" href="css/common.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/add-invest.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    html, body { height: 100%; }
-    body { background: var(--bg-main); color: var(--text-main); font-family: 'Inter', Arial, sans-serif; min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center; }
-    .add-invest-container { width: 100%; max-width: 370px; background: var(--bg-card); border-radius: 1.3rem; box-shadow: 0 8px 40px rgba(44,62,80,0.13); padding: 2.2rem 2rem 1.5rem 2rem; margin: 0 auto; position: relative; }
-    .back-btn { background: var(--sidebar-active); color: var(--accent); border: none; border-radius: 0.7rem; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; margin-bottom: 1.2rem; transition: background 0.2s, color 0.2s; text-decoration: none; position: absolute; top: 1.2rem; left: 1.2rem; }
-    .back-btn:hover { background: var(--accent); color: #fff; }
-    .invest-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 1.7rem; text-align: center; }
-    .invest-label { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; display: block; }
-    .invest-form-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.2rem; }
-    .invest-input { flex: 1; padding: 0.6rem 1rem; border-radius: 0.6rem; border: 1.5px solid var(--border-color); font-size: 1rem; background: var(--bg-main); color: var(--text-main); outline: none; transition: border 0.2s; }
-    .invest-input:focus { border-color: var(--accent); }
-    .add-invest-btn { background: #22c55e; color: #fff; border: none; border-radius: 0.6rem; padding: 0.6rem 1.3rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-    .add-invest-btn:hover { background: #16a34a; }
-    .invest-placeholder { color: var(--text-secondary); font-size: 0.98rem; margin-top: 0.2rem; margin-bottom: 0.7rem; text-align: center; }
-    .invest-list { margin-top: 1.2rem; }
-    .invest-item { background: var(--sidebar-active); color: var(--text-main); border-radius: 0.7rem; padding: 0.7rem 1.1rem; margin-bottom: 0.7rem; display: flex; align-items: center; justify-content: space-between; font-size: 1rem; font-weight: 500; }
-    .invest-item:last-child { margin-bottom: 0; }
-    .delete-invest-btn { background: none; border: none; color: #f56565; font-size: 1.2rem; cursor: pointer; padding: 0.2rem 0.5rem; border-radius: 0.4rem; transition: background 0.2s; display: flex; align-items: center; }
-    .delete-invest-btn:hover { background: #f56565; color: #fff; }
-    .delete-invest-btn svg { width: 20px; height: 20px; display: inline-block; }
-    @media (max-width: 600px) { .add-invest-container { max-width: 98vw; padding: 1.2rem 0.5rem 1rem 0.5rem; } }
-    body.dark .add-invest-container { background: #232a36; color: #f7f9fb; }
-    body.dark .invest-input { background: #181c24; color: #f7f9fb; border-color: #333a4d; }
-    body.dark .invest-item { background: #232a36; color: #f7f9fb; }
-    body.dark .back-btn { background: #232a36; color: #63b3ed; }
-    body.dark .back-btn:hover { background: #63b3ed; color: #fff; }
+    :root {
+      --bg-main: #f7f9fb;
+      --bg-card: #fff;
+      --text-main: #1a2233;
+      --text-secondary: #6b7a90;
+      --accent: #2b6cb0;
+      --border-color: #e2e8f0;
+      --sidebar-active: #e2e8f0;
+    }
+    
+    body.dark {
+      --bg-main: #181c24;
+      --bg-card: #232a36;
+      --text-main: #f7f9fb;
+      --text-secondary: #b0b8c1;
+      --accent: #63b3ed;
+      --border-color: #333a4d;
+      --sidebar-active: #2b6cb0;
+    }
+    
+    html, body { 
+      height: 100%; 
+    }
+    
+    body { 
+      background: var(--bg-main); 
+      color: var(--text-main); 
+      font-family: 'Poppins', Arial, sans-serif !important; 
+      min-height: 100vh; 
+      margin: 0; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+    }
+    
+    .add-invest-container { 
+      width: 100%; 
+      max-width: 370px; 
+      background: var(--bg-card); 
+      border-radius: 1.3rem; 
+      box-shadow: 0 8px 40px rgba(44,62,80,0.13); 
+      padding: 2.2rem 2rem 1.5rem 2rem; 
+      margin: 0 auto; 
+      position: relative; 
+    }
+    
+    .back-btn { 
+      background: var(--sidebar-active); 
+      color: var(--accent); 
+      border: none; 
+      border-radius: 0.7rem; 
+      width: 38px; 
+      height: 38px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 1.2rem; 
+      cursor: pointer; 
+      margin-bottom: 1.2rem; 
+      transition: background 0.2s, color 0.2s; 
+      text-decoration: none; 
+      position: absolute; 
+      top: 1.2rem; 
+      left: 1.2rem; 
+    }
+    
+    .back-btn:hover { 
+      background: var(--accent); 
+      color: #fff; 
+    }
+    
+    .invest-title { 
+      font-size: 1.35rem; 
+      font-weight: 700; 
+      margin-bottom: 1.7rem; 
+      text-align: center; 
+      color: var(--text-main);
+    }
+    
+    .invest-label { 
+      font-size: 1rem; 
+      font-weight: 600; 
+      margin-bottom: 0.3rem; 
+      display: block; 
+      color: var(--text-main);
+    }
+    
+    .invest-form-row { 
+      display: flex; 
+      align-items: center; 
+      gap: 0.7rem; 
+      margin-bottom: 1.2rem; 
+    }
+    
+    .invest-input { 
+      flex: 1; 
+      padding: 0.6rem 1rem; 
+      border-radius: 0.6rem; 
+      border: 1.5px solid var(--border-color); 
+      font-size: 1rem; 
+      background: var(--bg-main); 
+      color: var(--text-main); 
+      outline: none; 
+      transition: border 0.2s; 
+    }
+    
+    .invest-input:focus { 
+      border-color: var(--accent); 
+    }
+    
+    .add-invest-btn { 
+      background: #22c55e; 
+      color: #fff; 
+      border: none; 
+      border-radius: 0.6rem; 
+      padding: 0.6rem 1.3rem; 
+      font-size: 1rem; 
+      font-weight: 600; 
+      cursor: pointer; 
+      transition: background 0.2s; 
+    }
+    
+    .add-invest-btn:hover { 
+      background: #16a34a; 
+    }
+    
+    .invest-placeholder { 
+      color: var(--text-secondary); 
+      font-size: 0.98rem; 
+      margin-top: 0.2rem; 
+      margin-bottom: 0.7rem; 
+      text-align: center; 
+    }
+    
+    .invest-list { 
+      margin-top: 1.2rem; 
+    }
+    
+    .invest-item { 
+      background: var(--sidebar-active); 
+      color: var(--text-main); 
+      border-radius: 0.7rem; 
+      padding: 0.7rem 1.1rem; 
+      margin-bottom: 0.7rem; 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      font-size: 1rem; 
+      font-weight: 500; 
+    }
+    
+    .invest-item:last-child { 
+      margin-bottom: 0; 
+    }
+    
+    .delete-invest-btn { 
+      background: none; 
+      border: none; 
+      color: #f56565; 
+      font-size: 1.2rem; 
+      cursor: pointer; 
+      padding: 0.2rem 0.5rem; 
+      border-radius: 0.4rem; 
+      transition: background 0.2s; 
+      display: flex; 
+      align-items: center; 
+    }
+    
+    .delete-invest-btn:hover { 
+      background: #f56565; 
+      color: #fff; 
+    }
+    
+    .delete-invest-btn svg { 
+      width: 20px; 
+      height: 20px; 
+      display: inline-block; 
+    }
+    
+    @media (max-width: 600px) { 
+      .add-invest-container { 
+        max-width: 98vw; 
+        padding: 1.2rem 0.5rem 1rem 0.5rem; 
+      } 
+    }
+    
+    /* Dark mode specific styles */
+    body.dark .add-invest-container { 
+      background: #232a36; 
+      color: #f7f9fb; 
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    }
+    
+    body.dark .invest-input { 
+      background: #1a2233; 
+      color: #f7f9fb; 
+      border-color: #333a4d; 
+    }
+    
+    body.dark .invest-item { 
+      background: #2b6cb0; 
+      color: #f7f9fb; 
+    }
+    
+    body.dark .back-btn { 
+      background: #2b6cb0; 
+      color: #63b3ed; 
+    }
+    
+    body.dark .back-btn:hover { 
+      background: #63b3ed; 
+      color: #fff; 
+    }
   </style>
 </head>
-<body>
+<body class="hide">
   <div class="add-invest-container">
     <a href="dashboard.html" class="back-btn" title="Back">
       <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
@@ -50,11 +239,31 @@
     <div class="invest-placeholder" id="invest-placeholder">No investment yet.</div>
     <div class="invest-list" id="invest-list"></div>
   </div>
+  
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="firebase.js"></script>
   <script>
+    // Dark/Light mode toggle
+    function setTheme(isDark) {
+      if (isDark) {
+        document.body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+    }
+
+    // Set initial theme
+    const savedTheme = localStorage.getItem('theme');
+    const isDark = savedTheme === 'dark';
+    setTheme(isDark);
+    
+    // Show body after theme is set
+    document.body.classList.remove('hide');
+    
     const investForm = document.getElementById('invest-form');
     const investInput = document.getElementById('invest-input');
     const investList = document.getElementById('invest-list');
@@ -106,6 +315,7 @@
         });
       }
     }
+    
     investForm.onsubmit = function(e) {
       e.preventDefault();
       const val = investInput.value.trim();
@@ -116,6 +326,7 @@
         renderInvestments();
       }
     };
+    
     renderInvestments();
   </script>
 </body>

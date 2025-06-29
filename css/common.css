@@ -14,6 +14,7 @@ body.dark {
 }
 * {
   box-sizing: border-box;
+  font-family: 'Poppins', Arial, sans-serif !important;
 }
 a {
   color: var(--accent);
