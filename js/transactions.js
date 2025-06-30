@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+  let currentEditId = null;
   // Hapus class hide dari body
   document.body.classList.remove('hide');
   
@@ -20,6 +21,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', function() {
+      firebase.auth().signOut();
+    });
+  }
+  // Tambahkan event listener untuk tombol logout di bottom-navbar (ponsel)
+  const navLogout = document.querySelector('.nav-logout');
+  if (navLogout) {
+    navLogout.addEventListener('click', function(e) {
+      e.preventDefault();
       firebase.auth().signOut();
     });
   }
@@ -545,7 +554,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (amount > availableBalance) {
-          alert(`Insufficient balance! Available balance in ${sourceName}: Rp ${availableBalance.toLocaleString('id-ID')}`);
+          alert(`Insufficient balance! Available balance in ${sourceName}: ${availableBalance}`);
           return;
         }
       }
@@ -801,7 +810,7 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = 0; i < 12; i++) {
           // Cari transaksi pada kategori dan bulan ini
           const found = trxs.find(t => t.category === cat.name && new Date(t.date instanceof Date ? t.date : (t.date && t.date.toDate ? t.date.toDate() : t.date)).getMonth() === i);
-          tbody += `<td>${found ? `Rp ${found.amount.toLocaleString('id-ID')}` : ''}</td>`;
+          tbody += `<td class="currency-amount">${found ? 'Rp ' + found.amount.toLocaleString('id-ID') : ''}</td>`;
         }
         tbody += `</tr>`;
       });
@@ -816,7 +825,7 @@ document.addEventListener('DOMContentLoaded', function() {
       totalPerMonth[m] += t.amount;
     });
     let tfoot = `<tr><td><strong>Total</strong></td>`;
-    totalPerMonth.forEach(val => tfoot += `<td>Rp ${val ? val.toLocaleString('id-ID') : 0}</td>`);
+    totalPerMonth.forEach(val => tfoot += `<td class="currency-amount">${val ? 'Rp ' + val.toLocaleString('id-ID') : 'Rp 0'}</td>`);
     tfoot += `</tr>`;
     incomeTable.querySelector('tfoot').innerHTML = tfoot;
   }
@@ -851,15 +860,16 @@ document.addEventListener('DOMContentLoaded', function() {
       trxs.forEach((t, idx) => {
         const d = t.date instanceof Date ? t.date : (t.date && t.date.toDate ? t.date.toDate() : t.date);
         const dateStr = d ? new Date(d).toLocaleDateString('id-ID') : '';
-        const rowId = t.id || t._id || t.docId || t.doc_id || t.key || t.uid || t.transactionId || t.trxId || t.trx_id || t.ref || t.refId || t.ref_id || '';
+        const rowId = t.id || t._id || t.docId || t.doc_id || t.key || t.uid || t.transactionId || t.trxId || t.trx_id || t.ref || t.refId || '';
+        const isTransfer = t.type === 'transfer';
         tbody += `<tr data-trx-idx="${idx}" data-trx-id="${t.id || ''}">
           <td>${dateStr}</td>
           <td><span class="type-badge ${t.type}">${t.type || '-'}</span></td>
           <td>${t.account || '-'}</td>
           <td>${t.category || '-'}</td>
-          <td>Rp ${t.amount ? t.amount.toLocaleString('id-ID') : 0}</td>
+          <td class="currency-amount">${t.amount ? 'Rp ' + t.amount.toLocaleString('id-ID') : 'Rp 0'}</td>
           <td>
-            <button class="action-btn edit-btn" title="Edit"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+            <button class="action-btn edit-btn" title="Edit" ${isTransfer ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
             <button class="action-btn save-btn" title="Save" style="display:none;"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>
             <button class="action-btn delete-btn" title="Delete"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3,6 5,6 21,6"/><path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>
           </td>
@@ -873,7 +883,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeEditTransactionModal = document.getElementById('close-edit-transaction-modal');
     const cancelEditTransaction = document.getElementById('cancel-edit-transaction');
     const editTransactionForm = document.getElementById('edit-transaction-form');
-    let currentEditId = null;
 
     function openEditModal(trx) {
       editTransactionModal.style.display = 'block';
@@ -888,7 +897,6 @@ document.addEventListener('DOMContentLoaded', function() {
       document.body.style.overflow = '';
       editTransactionForm.reset();
       document.getElementById('edit-dynamic-fields').innerHTML = '';
-      currentEditId = null;
     }
     if (closeEditTransactionModal) closeEditTransactionModal.addEventListener('click', closeEditModal);
     if (cancelEditTransaction) cancelEditTransaction.addEventListener('click', closeEditModal);
@@ -1420,7 +1428,7 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = 0; i < 12; i++) {
           // Cari transaksi pada kategori dan bulan ini
           const found = trxs.find(t => t.category === cat.name && new Date(t.date instanceof Date ? t.date : (t.date && t.date.toDate ? t.date.toDate() : t.date)).getMonth() === i);
-          tbody += `<td>${found ? `Rp ${found.amount.toLocaleString('id-ID')}` : ''}</td>`;
+          tbody += `<td class="currency-amount">${found ? 'Rp ' + found.amount.toLocaleString('id-ID') : ''}</td>`;
         }
         tbody += `</tr>`;
       });
@@ -1435,7 +1443,7 @@ document.addEventListener('DOMContentLoaded', function() {
       totalPerMonth[m] += t.amount;
     });
     let tfoot = `<tr><td><strong>Total</strong></td>`;
-    totalPerMonth.forEach(val => tfoot += `<td>Rp ${val ? val.toLocaleString('id-ID') : 0}</td>`);
+    totalPerMonth.forEach(val => tfoot += `<td class="currency-amount">${val ? 'Rp ' + val.toLocaleString('id-ID') : 'Rp 0'}</td>`);
     tfoot += `</tr>`;
     expensesTable.querySelector('tfoot').innerHTML = tfoot;
   }
@@ -1474,7 +1482,7 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = 0; i < 12; i++) {
           // Cari transaksi pada kategori dan bulan ini
           const found = trxs.find(t => t.category === cat && new Date(t.date instanceof Date ? t.date : (t.date && t.date.toDate ? t.date.toDate() : t.date)).getMonth() === i);
-          tbody += `<td>${found ? `Rp ${found.amount.toLocaleString('id-ID')}` : ''}</td>`;
+          tbody += `<td class="currency-amount">${found ? 'Rp ' + found.amount.toLocaleString('id-ID') : ''}</td>`;
         }
         tbody += `</tr>`;
       });
@@ -1489,7 +1497,7 @@ document.addEventListener('DOMContentLoaded', function() {
       totalPerMonth[m] += t.amount;
     });
     let tfoot = `<tr><td><strong>Total</strong></td>`;
-    totalPerMonth.forEach(val => tfoot += `<td>Rp ${val ? val.toLocaleString('id-ID') : 0}</td>`);
+    totalPerMonth.forEach(val => tfoot += `<td class="currency-amount">${val ? 'Rp ' + val.toLocaleString('id-ID') : 'Rp 0'}</td>`);
     tfoot += `</tr>`;
     savingTable.querySelector('tfoot').innerHTML = tfoot;
   }
@@ -1922,13 +1930,13 @@ document.addEventListener('DOMContentLoaded', function() {
           <td>${t.category || '-'}</td>
           <td>${from}</td>
           <td>${to}</td>
-          <td>Rp ${t.amount ? t.amount.toLocaleString('id-ID') : 0}</td>
+          <td class="currency-amount">${t.amount ? 'Rp ' + t.amount.toLocaleString('id-ID') : ''}</td>
         </tr>`;
         total += t.amount || 0;
       });
     }
     transferedTable.querySelector('tbody').innerHTML = tbody;
-    transferedTable.querySelector('tfoot td:last-child').textContent = `Rp ${total.toLocaleString('id-ID')}`;
+    transferedTable.querySelector('tfoot td:last-child').textContent = `Rp ${total}`;
   }
 
   // Panggil renderTransferedTable setelah transaksi/ubah/hapus

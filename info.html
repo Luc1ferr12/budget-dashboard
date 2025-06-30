@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Info | Finwise</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>body.hide { visibility: hidden; }</style>
+</head>
+<body class="hide">
+  <div class="main-layout">
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="https://img.icons8.com/color/40/000000/money-bag.png" alt="Monsy Logo" style="vertical-align:middle;margin-right:8px;">
+        <span class="logo-title">Finwise</span>
+      </div>
+      <button id="theme-toggle-btn" class="theme-toggle-btn" title="Toggle dark/light mode" style="margin-bottom:0.1rem;">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <nav>
+        <a href="dashboard.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="12" width="7" height="8" rx="2"/><rect x="14" y="4" width="7" height="16" rx="2"/></svg></span> Dashboard</a>
+        <a href="transactions.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 17v-6a2 2 0 0 0-2-2H7"/><path d="M7 7v6a2 2 0 0 0 2 2h8"/></svg></span> Transactions</a>
+        <a href="settings.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1-2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Settings</a>
+        <a href="info.html" class="active"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8"/></svg></span> Info</a>
+      </nav>
+      <button id="logout-btn" class="logout-btn">Logout</button>
+    </aside>
+    <div class="content-area">
+      <header class="main-header">
+        <div class="header-left">
+          <h1>Info</h1>
+          <div class="greeting">Application and contact information</div>
+        </div>
+        <div class="header-right"></div>
+      </header>
+      <main>
+        <div class="info-features-outer" style="display:flex;justify-content:center;align-items:center;min-height:calc(100vh - 120px);padding:2.5rem 0;">
+          <div class="info-features-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:2.2rem;max-width:1300px;width:100%;">
+            <div class="feature-card" style="background:var(--bg-card);border-radius:1rem;box-shadow:0 2px 12px rgba(0,0,0,0.07);padding:1.7rem 1.2rem 1.3rem 1.2rem;text-align:left;display:flex;flex-direction:column;align-items:flex-start;gap:0.7rem;">
+              <div style="font-size:2.1rem;line-height:1;">📊</div>
+              <h3 style="font-size:1.2rem;font-weight:700;">Dashboard</h3>
+              <p style="color:var(--text-secondary);font-size:1rem;">Get a quick and beautiful overview of your finances! Instantly see your income, savings, expenses, and balance in one glance. Explore interactive charts and filter your cash flow by period, month, or year. Your financial health, visualized.</p>
+              <ul style="margin:0.7rem 0 0 0;padding-left:1.2rem;color:var(--text-main);font-size:0.98rem;">
+                <li><span style='font-size:1.1em;'>💰</span> <b>Income</b>: Shows the total money you have earned.</li>
+                <li><span style='font-size:1.1em;'>🏦</span> <b>Savings</b>: Displays the total amount you have saved or transferred to savings/investments.</li>
+                <li><span style='font-size:1.1em;'>💸</span> <b>Expenses</b>: Shows the total money you have spent.</li>
+                <li><span style='font-size:1.1em;'>🧮</span> <b>Balance</b>: Your current available balance after all transactions.</li>
+              </ul>
+            </div>
+            <div class="feature-card" style="background:var(--bg-card);border-radius:1rem;box-shadow:0 2px 12px rgba(0,0,0,0.07);padding:1.7rem 1.2rem 1.3rem 1.2rem;text-align:left;display:flex;flex-direction:column;align-items:flex-start;gap:0.7rem;">
+              <div style="font-size:2.1rem;line-height:1;">💸</div>
+              <h3 style="font-size:1.2rem;font-weight:700;">Transactions</h3>
+              <p style="color:var(--text-secondary);font-size:1rem;">Easily manage all your financial activities. Add, edit, or delete income, expenses, savings, and transfers. Enjoy clear tables, smart summaries, and a seamless experience to keep your records organized and up to date.</p>
+              <ul style="margin:0.7rem 0 0 0;padding-left:1.2rem;color:var(--text-main);font-size:0.98rem;">
+                <li><span style='font-size:1.1em;'>➕</span> <b>Add Saving</b>: Use this to save money and move it to another bank account or investment account. This action is recorded as a saving and will be reflected in the Savings card on the Dashboard.</li>
+                <li><span style='font-size:1.1em;'>🔄</span> <b>Transfer Balance</b>: Use this to transfer balance between your bank or investment accounts. The transferred amount will <b>not</b> affect the Savings card on the Dashboard; it is just a balance move.</li>
+                <li><span style='font-size:1.1em;'>💵</span> <b>Add Income</b>: Record new income transactions, such as salary or other earnings, to increase your balance.</li>
+                <li><span style='font-size:1.1em;'>💳</span> <b>Add Expenses</b>: Record your spending or payments to track and manage your expenses.</li>
+                <li><span style='font-size:1.1em;'>✏️</span> <b>Edit</b>: Click the blue pencil button in the Actions column to modify an existing transaction.</li>
+                <li><span style='font-size:1.1em;'>🗑️</span> <b>Delete</b>: Click the red trash button in the Actions column to remove a transaction permanently.</li>
+              </ul>
+            </div>
+            <div class="feature-card" style="background:var(--bg-card);border-radius:1rem;box-shadow:0 2px 12px rgba(0,0,0,0.07);padding:1.7rem 1.2rem 1.3rem 1.2rem;text-align:left;display:flex;flex-direction:column;align-items:flex-start;gap:0.7rem;">
+              <div style="font-size:2.1rem;line-height:1;">⚙️</div>
+              <h3 style="font-size:1.2rem;font-weight:700;">Settings</h3>
+              <p style="color:var(--text-secondary);font-size:1rem;">Personalize your experience! Update your account details, set your preferred language, and adjust app preferences. Your settings are always at your fingertips for a more comfortable and tailored journey.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="bottom-navbar" style="display:none;">
+    <a href="dashboard.html" class="nav-dashboard"><span class="nav-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="12" width="7" height="8" rx="2"/><rect x="14" y="4" width="7" height="16" rx="2"/></svg></span></a>
+    <a href="transactions.html" class="nav-transactions"><span class="nav-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 17v-6a2 2 0 0 0-2-2H7"/><path d="M7 7v6a2 2 0 0 0 2 2h8"/></svg></span></a>
+    <a href="settings.html" class="nav-settings"><span class="nav-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1-2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span></a>
+    <a href="info.html" class="nav-info active"><span class="nav-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8"/></svg></span></a>
+    <a href="#" class="nav-logout" style="background:#e74c3c;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7"/><path d="M9 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4"/></svg></a>
+  </div>
+  <script>
+    // Dark mode konsisten
+    function setTheme(isDark) {
+      const themeIcon = document.getElementById('theme-icon');
+      if (isDark) {
+        document.body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        if (themeIcon) themeIcon.textContent = '☀️';
+      } else {
+        document.body.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        if (themeIcon) themeIcon.textContent = '🌙';
+      }
+    }
+    const savedTheme = localStorage.getItem('theme');
+    const isDark = savedTheme === 'dark';
+    setTheme(isDark);
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', function() {
+        setTheme(!document.body.classList.contains('dark'));
+      });
+    }
+    document.body.classList.remove('hide');
+    if(window.innerWidth <= 600){document.querySelector('.bottom-navbar').style.display = 'flex';}
+    window.addEventListener('resize', function(){document.querySelector('.bottom-navbar').style.display = window.innerWidth <= 600 ? 'flex' : 'none';});
+  </script>
+</body>
+</html> 

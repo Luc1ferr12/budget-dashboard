@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Bank | Budget Dashboard</title>
+  <title>Add Bank | Finwise</title>
   <link rel="stylesheet" href="css/dashboard.css">
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/add-bank.css">
@@ -253,6 +253,78 @@
     
     // Show body after theme is set
     document.body.classList.remove('hide');
+    
+    const addBankForm = document.getElementById('add-bank-form');
+    const bankNameInput = document.getElementById('bank-name');
+    const bankList = document.getElementById('bank-list');
+    let banks = [];
+    let currentUser = null;
+
+    // Cek user login
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (!user) {
+        window.location.href = 'login.html';
+      } else {
+        currentUser = user;
+        listenUserBanks(user);
+      }
+    });
+
+    // Ambil data bank dari Firestore
+    function listenUserBanks(user) {
+      db.collection('users').doc(user.uid).onSnapshot(doc => {
+        const data = doc.data() || {};
+        banks = data.banks || [];
+        renderBanks();
+      });
+    }
+
+    function saveBanksToFirestore() {
+      if (currentUser) {
+        db.collection('users').doc(currentUser.uid).set({ banks }, { merge: true });
+      }
+    }
+
+    function renderBanks() {
+      bankList.innerHTML = '';
+      // Ambil bankBalances dari localStorage (atau object kosong)
+      const bankBalances = JSON.parse(localStorage.getItem('bankBalances') || '{}');
+      if (banks.length === 0) {
+        bankList.innerHTML = '<div class="no-banks-list">No banks added yet.</div>';
+      } else {
+        banks.forEach((bank, idx) => {
+          const balance = bankBalances[bank] || 0;
+          const isDisabled = balance > 0;
+          const btnTitle = isDisabled ? 'Tidak bisa dihapus, masih ada balance' : 'Delete';
+          const btnDisabled = isDisabled ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '';
+          const item = document.createElement('div');
+          item.className = 'bank-item';
+          item.innerHTML = `<span>${bank}</span><button class="remove-btn" title="${btnTitle}" ${btnDisabled}>Delete</button>`;
+          const btn = item.querySelector('.remove-btn');
+          if (!isDisabled) {
+            btn.onclick = () => {
+              banks.splice(idx, 1);
+              saveBanksToFirestore();
+              renderBanks();
+            };
+          }
+          bankList.appendChild(item);
+        });
+      }
+    }
+    
+    addBankForm.onsubmit = function(e) {
+      e.preventDefault();
+      const val = bankNameInput.value.trim();
+      if (val && !banks.includes(val)) {
+        banks.push(val);
+        bankNameInput.value = '';
+        saveBanksToFirestore();
+        renderBanks();
+      }
+    };
+    
+    renderBanks();
   </script>
 </body>
 </html> 

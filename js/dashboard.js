@@ -25,6 +25,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Tambahkan event listener untuk tombol logout di bottom-navbar (ponsel)
+  const navLogout = document.querySelector('.nav-logout');
+  if (navLogout) {
+    navLogout.addEventListener('click', function(e) {
+      e.preventDefault();
+      auth.signOut();
+    });
+  }
+
   // Dark/Light mode toggle dengan icon bulan/matahari
   function setTheme(isDark) {
     const themeIcon = document.getElementById('theme-icon');
@@ -425,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Periode cashflow (daily, weekly, monthly, yearly)
-  let cfSelectedPeriod = 'monthly'; // default
+  let cfSelectedPeriod = 'daily'; // default
 
   // Event listener untuk tombol periode cashflow
   const cfPeriodBtns = document.querySelectorAll('.cf-period-btn');

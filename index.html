@@ -3,24 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading | Budget Dashboard</title>
+  <title>Loading | Finwise</title>
   <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="css/common.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body { background: var(--bg-main); color: var(--text-main); display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-    .loading-container { text-align: center; }
-    .spinner { border: 4px solid #eee; border-top: 4px solid var(--accent); border-radius: 50%; width: 48px; height: 48px; animation: spin 1s linear infinite; margin: 0 auto 1.5rem; }
+    :root {
+      --bg-dark: #181c24;
+      --text-main: #fff;
+      --accent: #38b2ac;
+      --accent2: #7f5af0;
+      --glow: 0 0 24px 4px #38b2ac55;
+    }
+    body {
+      background: linear-gradient(135deg, #181c24 60%, #232a36 100%);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Poppins', Arial, sans-serif;
+      transition: background 0.5s;
+    }
+    .loading-container {
+      text-align: center;
+      padding: 2.5rem 2rem 2rem 2rem;
+      border-radius: 1.5rem;
+      background: rgba(24,28,36,0.92);
+      box-shadow: 0 8px 32px 0 #0005, 0 0 0 2px #232a36;
+      position: relative;
+      overflow: hidden;
+    }
+    .loading-container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, #38b2ac33 0%, #7f5af033 100%);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .spinner {
+      margin: 0 auto 2rem auto;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 6px solid #232a36;
+      border-top: 6px solid var(--accent);
+      border-right: 6px solid var(--accent2);
+      animation: spin 1.1s cubic-bezier(.68,-0.55,.27,1.55) infinite;
+      box-shadow: var(--glow);
+      position: relative;
+      z-index: 1;
+    }
     @keyframes spin { 100% { transform: rotate(360deg); } }
+    h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      margin: 0 0 0.5rem 0;
+      color: #fff;
+      text-shadow: 0 2px 16px #38b2ac33, 0 1px 0 #232a36;
+      position: relative;
+      z-index: 1;
+    }
+    .loading-text {
+      font-size: 1.05rem;
+      color: #b5eaea;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.03em;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+    }
+    .glow-bar {
+      width: 120px;
+      height: 8px;
+      border-radius: 8px;
+      margin: 1.5rem auto 0 auto;
+      background: linear-gradient(90deg, #38b2ac 0%, #7f5af0 100%);
+      box-shadow: 0 0 24px 4px #38b2ac55, 0 0 32px 8px #7f5af055;
+      animation: glowbar 1.2s ease-in-out infinite alternate;
+      position: relative;
+      z-index: 1;
+    }
+    @keyframes glowbar {
+      0% { filter: brightness(1) blur(0.5px); }
+      100% { filter: brightness(1.5) blur(2px); }
+    }
   </style>
   <script>
-    setTimeout(function() { window.location.href = 'login.html'; }, 1500);
+    setTimeout(function() { window.location.href = 'login.html'; }, 5000);
   </script>
 </head>
 <body>
   <div class="loading-container">
     <div class="spinner"></div>
-    <h2>Loading Budget Dashboard...</h2>
+    <h2>Finwise</h2>
+    <div class="loading-text">Sedang memuat aplikasi...</div>
+    <div class="glow-bar"></div>
   </div>
 </body>
 </html> 

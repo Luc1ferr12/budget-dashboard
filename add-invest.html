@@ -298,19 +298,28 @@
 
     function renderInvestments() {
       investList.innerHTML = '';
+      // Ambil investBalances dari localStorage (atau object kosong)
+      const investBalances = JSON.parse(localStorage.getItem('investBalances') || '{}');
       if (investments.length === 0) {
         investPlaceholder.style.display = 'block';
       } else {
         investPlaceholder.style.display = 'none';
         investments.forEach((inv, idx) => {
+          const balance = investBalances[inv] || 0;
+          const isDisabled = balance > 0;
+          const btnTitle = isDisabled ? 'Tidak bisa dihapus, masih ada balance' : 'Delete';
+          const btnDisabled = isDisabled ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '';
           const item = document.createElement('div');
           item.className = 'invest-item';
-          item.innerHTML = `<span>${inv}</span><button class="delete-invest-btn" title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6v12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6"/><path d="M19 6l-1.5 14a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>`;
-          item.querySelector('.delete-invest-btn').onclick = () => {
-            investments.splice(idx, 1);
-            saveInvestmentsToFirestore();
-            renderInvestments();
-          };
+          item.innerHTML = `<span>${inv}</span><button class="delete-invest-btn" title="${btnTitle}" ${btnDisabled}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6v12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6"/><path d="M19 6l-1.5 14a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>`;
+          const btn = item.querySelector('.delete-invest-btn');
+          if (!isDisabled) {
+            btn.onclick = () => {
+              investments.splice(idx, 1);
+              saveInvestmentsToFirestore();
+              renderInvestments();
+            };
+          }
           investList.appendChild(item);
         });
       }

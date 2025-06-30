@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings | Finwise</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/settings.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase.js"></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/settings.js" defer></script>
+  <style>
+    body.hide { visibility: hidden; }
+  </style>
+</head>
+<body class="hide">
+  <div class="main-layout">
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="https://img.icons8.com/color/40/000000/money-bag.png" alt="Monsy Logo" style="vertical-align:middle;margin-right:8px;">
+        <span class="logo-title">Finwise</span>
+      </div>
+      <button id="theme-toggle-btn" class="theme-toggle-btn" title="Toggle dark/light mode" style="margin-bottom:0.1rem;">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <nav>
+        <a href="dashboard.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="12" width="7" height="8" rx="2"/><rect x="14" y="4" width="7" height="16" rx="2"/></svg></span> Dashboard</a>
+        <!-- <a href="assets.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span> Assets</a> -->
+        <!-- <a href="budgeting.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></span> Budgeting</a> -->
+        <a href="transactions.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 17v-6a2 2 0 0 0-2-2H7"/><path d="M7 7v6a2 2 0 0 0 2 2h8"/></svg></span> Transactions</a>
+        <a href="settings.html" class="active"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Settings</a>
+        <a href="info.html"><span class="nav-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8"/></svg></span> Info</a>
+      </nav>
+      <button id="logout-btn" class="logout-btn">Logout</button>
+    </aside>
+    <div class="content-area">
+      <header class="main-header">
+        <div class="header-left">
+          <h1>Settings</h1>
+          <div class="greeting">Account settings and app preferences</div>
+        </div>
+        <div class="header-right"></div>
+      </header>
+      <main>
+        <div class="settings-row">
+          <div class="settings-section">
+            <h2 style="font-size:1.3rem;font-weight:600;margin-bottom:1.2rem;">Account Information</h2>
+            <form id="account-info-form" style="max-width:350px;margin:0 auto;text-align:left;">
+              <div class="form-group" style="margin-bottom:1.2rem;">
+                <label for="display-name" style="font-weight:600;">Display Name</label>
+                <input type="text" id="display-name" name="displayName" class="settings-input" style="width:100%;padding:0.6rem 1rem;border-radius:0.5rem;border:1.5px solid #e2e8f0;font-size:1rem;" required />
+              </div>
+              <div class="form-group" style="margin-bottom:1.2rem;">
+                <label for="email" style="font-weight:600;">Email</label>
+                <input type="email" id="email" name="email" class="settings-input" style="width:100%;padding:0.6rem 1rem;border-radius:0.5rem;border:1.5px solid #e2e8f0;font-size:1rem;background:#f3f4f6;color:#888;" disabled />
+              </div>
+              <div class="form-group" style="margin-bottom:1.2rem;">
+                <label for="location" style="font-weight:600;">Location</label>
+                <select id="location" name="location" class="settings-input" style="width:100%;padding:0.6rem 1rem;border-radius:0.5rem;border:1.5px solid #e2e8f0;font-size:1rem;">
+                  <option value="Indonesia" selected>Indonesia</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Singapore">Singapore</option>
+                  <option value="Philippines">Philippines</option>
+                  <option value="Thailand">Thailand</option>
+                  <option value="Vietnam">Vietnam</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <button type="submit" class="save-btn" style="margin-top:1.2rem;">Save Changes</button>
+            </form>
+          </div>
+          <div class="settings-section">
+            <h2 style="font-size:1.3rem;font-weight:600;margin-bottom:1.2rem;text-align:center;width:100%;">App Preferences (Under Development)</h2>
+            <form id="app-preferences-form" style="max-width:350px;margin:0 auto;text-align:left;">
+              <div class="form-group" style="margin-bottom:1.2rem;">
+                <label for="currency" style="font-weight:600;">Currency</label>
+                <select id="currency" name="currency" class="settings-input" disabled>
+                  <option value="IDR" selected>IDR (Rupiah)</option>
+                  <option value="USD">USD (US Dollar)</option>
+                  <option value="SGD">SGD (Singapore Dollar)</option>
+                  <option value="MYR">MYR (Malaysian Ringgit)</option>
+                  <option value="THB">THB (Thai Baht)</option>
+                  <option value="PHP">PHP (Philippine Peso)</option>
+                  <option value="VND">VND (Vietnamese Dong)</option>
+                  <option value="EUR">EUR (Euro)</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:1.2rem;">
+                <label for="language" style="font-weight:600;">Language</label>
+                <select id="language" name="language" class="settings-input" disabled>
+                  <option value="en" selected>English</option>
+                  <option value="id">Indonesia</option>
+                </select>
+              </div>
+              <button type="submit" class="save-btn" style="margin-top:1.2rem;">Save Preferences</button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="bottom-navbar" style="display:none;">
+    <a href="dashboard.html" class="nav-dashboard"><span class="nav-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="12" width="7" height="8" rx="2"/><rect x="14" y="4" width="7" height="16" rx="2"/></svg></span></a>
+    <a href="transactions.html" class="nav-transactions"><span class="nav-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 17v-6a2 2 0 0 0-2-2H7"/><path d="M7 7v6a2 2 0 0 0 2 2h8"/></svg></span></a>
+    <a href="settings.html" class="nav-settings active"><span class="nav-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span></a>
+    <a href="info.html" class="nav-info"><span class="nav-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8"/></svg></span></a>
+    <a href="#" class="nav-logout" style="background:#e74c3c;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7"/><path d="M9 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4"/></svg></a>
+  </div>
+  <script>
+    // Tampilkan bottom navbar hanya di ponsel
+    if(window.innerWidth <= 600){
+      document.querySelector('.bottom-navbar').style.display = 'flex';
+    }
+    window.addEventListener('resize', function(){
+      document.querySelector('.bottom-navbar').style.display = window.innerWidth <= 600 ? 'flex' : 'none';
+    });
+  </script>
+</body>
+</html> 

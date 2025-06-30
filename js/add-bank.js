@@ -8,14 +8,20 @@ document.addEventListener('DOMContentLoaded', function() {
   // Render bank list dari Firestore
   function renderBanks(banks) {
     list.innerHTML = '';
+    // Ambil bankBalances dari localStorage (atau object kosong)
+    const bankBalances = JSON.parse(localStorage.getItem('bankBalances') || '{}');
     if (!banks || banks.length === 0) {
       list.innerHTML = '<div class="no-banks-list">No banks added yet.</div>';
       return;
     }
     banks.forEach((bank, idx) => {
+      const balance = bankBalances[bank] || 0;
+      const isDisabled = balance > 0;
+      const btnTitle = isDisabled ? 'Tidak bisa dihapus, masih ada balance' : 'Delete';
+      const btnDisabled = isDisabled ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : '';
       const div = document.createElement('div');
       div.className = 'bank-item';
-      div.innerHTML = `<span>${bank}</span> <button class="remove-btn" data-idx="${idx}" title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6v12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6"/><path d="M19 6l-1.5 14a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>`;
+      div.innerHTML = `<span>${bank}</span> <button class="remove-btn" data-idx="${idx}" title="${btnTitle}" ${btnDisabled}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6v12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6"/><path d="M19 6l-1.5 14a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>`;
       list.appendChild(div);
     });
   }
@@ -71,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Hapus bank
   list.addEventListener('click', function(e) {
     const btn = e.target.closest('.remove-btn');
-    if (btn) {
+    if (btn && !btn.hasAttribute('disabled')) {
       const idx = +btn.getAttribute('data-idx');
       if (currentUser) removeBank(currentUser, idx);
     }
