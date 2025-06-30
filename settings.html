@@ -17,6 +17,17 @@
   <style>
     body.hide { visibility: hidden; }
   </style>
+  <script>
+    (function() {
+      var savedTheme = localStorage.getItem('theme');
+      if (!savedTheme) {
+        localStorage.setItem('theme', 'dark');
+        document.body.classList.add('dark');
+      } else if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+      }
+    })();
+  </script>
 </head>
 <body class="hide">
   <div class="main-layout">
@@ -43,6 +54,9 @@
         <div class="header-left">
           <h1>Settings</h1>
           <div class="greeting">Account settings and app preferences</div>
+          <button id="mobile-theme-toggle-btn" class="theme-toggle-btn mobile-only" title="Toggle dark/light mode" style="display:none;margin:0.7rem 0 0 0;">
+            <span id="mobile-theme-icon">🌙</span>
+          </button>
         </div>
         <div class="header-right"></div>
       </header>
@@ -119,6 +133,42 @@
     window.addEventListener('resize', function(){
       document.querySelector('.bottom-navbar').style.display = window.innerWidth <= 600 ? 'flex' : 'none';
     });
+  </script>
+  <style>
+    @media (max-width: 600px) {
+      .mobile-only { display: inline-flex !important; align-items: center; justify-content: center; }
+    }
+    @media (min-width: 601px) {
+      .mobile-only { display: none !important; }
+    }
+  </style>
+  <script>
+    // Toggle dark/light mode untuk tombol mobile
+    const mobileThemeBtn = document.getElementById('mobile-theme-toggle-btn');
+    const mobileThemeIcon = document.getElementById('mobile-theme-icon');
+    function setMobileTheme(isDark) {
+      if (isDark) {
+        document.body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        if (mobileThemeIcon) mobileThemeIcon.textContent = '☀️';
+      } else {
+        document.body.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        if (mobileThemeIcon) mobileThemeIcon.textContent = '🌙';
+      }
+    }
+    if (mobileThemeBtn) {
+      // Tampilkan tombol hanya di mobile
+      if (window.innerWidth <= 600) mobileThemeBtn.style.display = 'inline-flex';
+      window.addEventListener('resize', function() {
+        mobileThemeBtn.style.display = window.innerWidth <= 600 ? 'inline-flex' : 'none';
+      });
+      // Set icon sesuai mode
+      setMobileTheme(document.body.classList.contains('dark'));
+      mobileThemeBtn.addEventListener('click', function() {
+        setMobileTheme(!document.body.classList.contains('dark'));
+      });
+    }
   </script>
 </body>
 </html> 

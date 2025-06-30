@@ -48,8 +48,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   // Set initial theme
-  const savedTheme = localStorage.getItem('theme');
-  const isDark = savedTheme === 'dark';
+  let savedTheme = localStorage.getItem('theme');
+  let isDark = savedTheme === 'dark';
+  if (!savedTheme) {
+    isDark = true;
+    localStorage.setItem('theme', 'dark');
+  }
   setTheme(isDark);
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', function() {

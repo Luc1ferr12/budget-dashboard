@@ -235,22 +235,16 @@
   </div>
   
   <script>
-    // Dark/Light mode toggle dengan icon bulan/matahari
-    function setTheme(isDark) {
-      if (isDark) {
-        document.body.classList.add('dark');
+    (function() {
+      var savedTheme = localStorage.getItem('theme');
+      if (!savedTheme) {
         localStorage.setItem('theme', 'dark');
-      } else {
-        document.body.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
+        document.body.classList.add('dark');
+      } else if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
       }
-    }
+    })();
 
-    // Set initial theme
-    const savedTheme = localStorage.getItem('theme');
-    const isDark = savedTheme === 'dark';
-    setTheme(isDark);
-    
     // Show body after theme is set
     document.body.classList.remove('hide');
     

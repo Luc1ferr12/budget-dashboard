@@ -13,6 +13,18 @@
   <script src="firebase.js"></script>
   <script src="js/common.js" defer></script>
   <script src="js/login.js" defer></script>
+  <script>
+    // Set default darkmode jika belum pernah di-set
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      let isDark = savedTheme === 'dark';
+      if (!savedTheme) {
+        isDark = true;
+        localStorage.setItem('theme', 'dark');
+      }
+      if (isDark) document.body.classList.add('dark');
+    })();
+  </script>
 </head>
 <body>
   <div class="login-container">

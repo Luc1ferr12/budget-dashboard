@@ -49,8 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   const themeBtn = document.getElementById('theme-toggle-btn');
-  const savedTheme = localStorage.getItem('theme');
-  const isDark = savedTheme === 'dark';
+  let savedTheme = localStorage.getItem('theme');
+  let isDark = savedTheme === 'dark';
+  if (!savedTheme) {
+    isDark = true;
+    localStorage.setItem('theme', 'dark');
+  }
   setTheme(isDark);
   if (themeBtn) {
     themeBtn.addEventListener('click', function() {
