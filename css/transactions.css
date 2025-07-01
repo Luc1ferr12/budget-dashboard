@@ -694,8 +694,11 @@ body.dark .cancel-btn:hover {
 }
 @media (max-width: 600px) {
   .modal-content {
-    margin: 10% auto;
-    width: 95%;
+    margin: 8% auto;
+    width: 90vw;
+    max-width: 360px;
+    padding: 0.7rem 0.3rem 0.7rem 0.3rem;
+    font-size: 0.97rem;
   }
   .form-actions {
     flex-direction: column;
@@ -707,6 +710,17 @@ body.dark .cancel-btn:hover {
   .add-account-btn {
     min-width: auto;
     width: 100%;
+  }
+  .modal-header h2 {
+    font-size: 1.08rem;
+  }
+  .form-group label {
+    font-size: 0.93rem;
+  }
+  .form-group input,
+  .form-group select {
+    font-size: 0.97rem;
+    padding: 0.7rem 0.7rem;
   }
 }
 /* Category Modal Styles */

@@ -19,12 +19,20 @@
   </style>
   <script>
     (function() {
+      var isMobile = window.innerWidth <= 600;
       var savedTheme = localStorage.getItem('theme');
-      if (!savedTheme) {
+      if (isMobile) {
+        // Paksa darkmode di mobile
         localStorage.setItem('theme', 'dark');
         document.body.classList.add('dark');
-      } else if (savedTheme === 'dark') {
-        document.body.classList.add('dark');
+      } else {
+        // Desktop: ikuti localStorage
+        if (!savedTheme) {
+          localStorage.setItem('theme', 'dark');
+          document.body.classList.add('dark');
+        } else if (savedTheme === 'dark') {
+          document.body.classList.add('dark');
+        }
       }
     })();
   </script>
@@ -143,32 +151,31 @@
     }
   </style>
   <script>
-    // Toggle dark/light mode untuk tombol mobile
-    const mobileThemeBtn = document.getElementById('mobile-theme-toggle-btn');
-    const mobileThemeIcon = document.getElementById('mobile-theme-icon');
-    function setMobileTheme(isDark) {
-      if (isDark) {
-        document.body.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-        if (mobileThemeIcon) mobileThemeIcon.textContent = '☀️';
-      } else {
-        document.body.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-        if (mobileThemeIcon) mobileThemeIcon.textContent = '🌙';
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileThemeBtn = document.getElementById('mobile-theme-toggle-btn');
+      const mobileThemeIcon = document.getElementById('mobile-theme-icon');
+      function setMobileTheme(isDark) {
+        if (isDark) {
+          document.body.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+          if (mobileThemeIcon) mobileThemeIcon.textContent = '☀️';
+        } else {
+          document.body.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+          if (mobileThemeIcon) mobileThemeIcon.textContent = '🌙';
+        }
       }
-    }
-    if (mobileThemeBtn) {
-      // Tampilkan tombol hanya di mobile
-      if (window.innerWidth <= 600) mobileThemeBtn.style.display = 'inline-flex';
-      window.addEventListener('resize', function() {
-        mobileThemeBtn.style.display = window.innerWidth <= 600 ? 'inline-flex' : 'none';
-      });
-      // Set icon sesuai mode
-      setMobileTheme(document.body.classList.contains('dark'));
-      mobileThemeBtn.addEventListener('click', function() {
-        setMobileTheme(!document.body.classList.contains('dark'));
-      });
-    }
+      if (mobileThemeBtn) {
+        if (window.innerWidth <= 600) mobileThemeBtn.style.display = 'inline-flex';
+        window.addEventListener('resize', function() {
+          mobileThemeBtn.style.display = window.innerWidth <= 600 ? 'inline-flex' : 'none';
+        });
+        setMobileTheme(document.body.classList.contains('dark'));
+        mobileThemeBtn.addEventListener('click', function() {
+          setMobileTheme(!document.body.classList.contains('dark'));
+        });
+      }
+    });
   </script>
 </body>
 </html> 
